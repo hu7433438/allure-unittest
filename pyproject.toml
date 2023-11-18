@@ -1,0 +1,23 @@
+[project]
+name = "allure-unittest"
+version = "0.0.1"
+authors = [
+  { name="Sun Young", email="hu7433438@sohu.com" },
+]
+description = "A small example package"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python :: 3",
+    "Environment :: Plugins",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: BSD License",
+]
+
+dependencies = [
+  "allure-python-commons",
+]
+[project.urls]
+"Homepage" = "https://github.com/pypa/sampleproject"
+"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
