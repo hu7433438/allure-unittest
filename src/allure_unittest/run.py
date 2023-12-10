@@ -3,6 +3,10 @@ from multiprocessing import Pool, cpu_count
 from pathlib import Path
 from unittest import TestSuite
 
+from allure_commons import plugin_manager
+from allure_commons.logger import AllureFileLogger
+
+from .listener import Listener
 from .result import Result
 
 
@@ -27,22 +31,25 @@ class Run:
         return cases
 
     def _start(self):
+        plugin_manager.register(Listener())
+        plugin_manager.register(AllureFileLogger(self.report_source_path))
         pool = Pool(processes=cpu_count() - 2)
         for sync, case_list in self.suites.items():
-            if sync == 'async':
-                pool.starmap(self._execute_case, [(c, self.report_source_path) for c in case_list])
-            else:
-                pool.apply(self._execute_case_list, (case_list, self.report_source_path))
+            self._execute_case_list(case_list)
+            # if sync == 'async':
+            #     pool.starmap(self._execute_case, [(c, self.report_source_path) for c in case_list])
+            # else:
+            #     pool.apply(self._execute_case_list, (case_list, self.report_source_path))
 
         pool.close()
         pool.join()
 
     @staticmethod
-    def _execute_case_list(case_list, report_source_path):
+    def _execute_case_list(case_list):
         for case in case_list:
-            Run._execute_case(case, report_source_path)
+            Run._execute_case(case)
 
     @staticmethod
-    def _execute_case(case, report_source_path):
-        r = Result(report_source_path)
+    def _execute_case(case):
+        r = Result()
         case.run(r)

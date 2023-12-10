@@ -1,32 +1,21 @@
-from ddt import ddt, unpack, data
-
 import unittest
 from allure_unittest import Run
 
 
-@ddt
 class Activity(unittest.TestCase):
-    # # @classmethod
-    # # def setUpClass(cls):
-    # #     cls.d = 9/0
-    # #
-    # # @classmethod
-    # def setUp(cls):
-    #     cls.d = 9/0
+    def test_1(self):
+        self._testMethodDoc = "test 1 == 1"
+        self.assertEqual(1, 1)
 
-    @data(*[1, 2, 3, 4, 5])
-    def test_base(self, d):
-        self._testMethodDoc = f"测试{d}配置表基础逻辑测试"
-        self.d = 9 / 0
+    def test_2(self):
+        self._testMethodDoc = "test 1 == 2"
+        self.assertEqual(1, 2)
+
+    def test_3(self):
+        self._testMethodDoc = "test 2 == 3"
+        self.assertEqual(2, 3, "2 not Equal 3")
 
 
 if __name__ == '__main__':
-    # unittest.main()
-    # activity().run()
-    # a = Result('aaa')
     c = unittest.defaultTestLoader.loadTestsFromTestCase(Activity)
-    # c.run(a)
-    # Activity('test_base').run(a)
-    # s = unittest.TestSuite()
-    # s.addTest(activity('test_base'))
     Run('test', c, clean=True)

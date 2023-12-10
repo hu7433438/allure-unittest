@@ -1,24 +1,17 @@
 from unittest import TestResult as _UnitTestResult
 
-from allure_commons import plugin_manager
-from allure_commons.logger import AllureFileLogger
 from allure_commons.model2 import TestResult, Label
 from allure_commons.reporter import AllureReporter
 from allure_commons.types import LabelType
 from allure_commons.utils import now, uuid4
 
-from .listener import Listener
 from .utils import get_outcome_status, get_outcome_status_details
 
 
 class Result(_UnitTestResult):
 
-    def __init__(self, report_source_path):
+    def __init__(self):
         super(Result, self).__init__()
-        self.report_source_path = report_source_path
-        self.listener = Listener()
-        plugin_manager.register(self.listener)
-        plugin_manager.register(AllureFileLogger(self.report_source_path))
         self.allure_reporter = AllureReporter()
         self.test_result = None
         self.allure_results = []
